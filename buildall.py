@@ -17,7 +17,7 @@ def run_shell(cmd):
     print("\n>>", cmd)
     code = os.system(cmd)
     if code != 0:
-        sys.exit(">> failed to run shell command: %s" % cmd)
+        sys.exit(f">> failed to run shell command: {cmd}")
 
 
 if sys.platform == 'win32':
@@ -158,7 +158,7 @@ def main():
 
         if sys.platform == 'win32':
             if vs_versions:
-                generator = 'Visual Studio {}'.format(args.vs)
+                generator = f'Visual Studio {args.vs}'
                 generator_args = '-A {}'.format('x64' if bits ==
                                                 '64' else 'Win32')
             else:
@@ -178,12 +178,12 @@ def main():
 
         if sys.platform == 'win32':
             target_project = 'ALL_BUILD'
-            run_shell('%s --build . --config %s --target %s' %
-                      (cmake, ('Debug' if args.debug else 'Release'), target_project))
+            run_shell(
+                f"{cmake} --build . --config {'Debug' if args.debug else 'Release'} --target {target_project}"
+            )
         else:
             import glob
-            run_shell('%s --build . --config %s' %
-                      (cmake, ('Debug' if args.debug else 'Release')))
+            run_shell(f"{cmake} --build . --config {'Debug' if args.debug else 'Release'}")
 
 
 if __name__ == "__main__":
